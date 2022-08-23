@@ -160,7 +160,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Push alpine to Docker Hub
         id: build_alpine
-        uses: docker/build-push-action@v3.0.0
+        uses: docker/build-push-action@v3.1.1
         with:
           context: .
           push: true
@@ -172,7 +172,7 @@ jobs:
             DESCRIPTIONS_URL=${{ secrets.DESCRIPTIONS_URL }}
       - name: Build and push debian to Docker Hub
         id: build_debian
-        uses: docker/build-push-action@v3.0.0
+        uses: docker/build-push-action@v3.1.1
         with:
           context: .
           file: ./docker/Dockerfile.debian
@@ -185,7 +185,7 @@ jobs:
             DESCRIPTIONS_URL=${{ secrets.DESCRIPTIONS_URL }}
       - name: Build and push ubi8 to Docker Hub
         id: build_ubi8
-        uses: docker/build-push-action@v3.0.0
+        uses: docker/build-push-action@v3.1.1
         with:
           context: .
           file: ./docker/Dockerfile.ubi8
@@ -211,7 +211,7 @@ jobs:
           echo "alpine,${COMMIT_SHA8},${DATE},${ALPINE_DIGEST}" >> docs/docker/nightly.csv
           echo "debian,${COMMIT_SHA8},${DATE},${DEBIAN_DIGEST}" >> docs/docker/nightly.csv
           echo "ubi8,${COMMIT_SHA8},${DATE},${UBI8_DIGEST}" >> docs/docker/nightly.csv
-      - uses: actions/setup-python@v3
+      - uses: actions/setup-python@v4
         with:
           python-version: 3.x
       - name: Generate .md table

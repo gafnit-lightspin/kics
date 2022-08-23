@@ -1,6 +1,6 @@
 package Cx
 
-import data.generic.cloudformation as cloudformation_lib
+import data.generic.cloudformation as cf_lib
 import data.generic.common as common_lib
 
 CxPolicy[result] {
@@ -11,11 +11,13 @@ CxPolicy[result] {
 	st := common_lib.get_statement(common_lib.get_policy(policy))
 	statement := st[_]
 	common_lib.is_allow_effect(statement)
-	common_lib.equalsOrInArray(statement.Resource, "*")
-	cloudformation_lib.checkAction(statement.Action, "delete")
+	common_lib.equalsOrInArray(statement.Principal, "*")
+	cf_lib.checkAction(statement.Action, "delete")
 
 	result := {
 		"documentId": input.document[i].id,
+		"resourceType": resource.Type,
+		"resourceName": cf_lib.get_resource_name(resource, name),
 		"searchKey": sprintf("Resources.%s.Properties.PolicyDocument", [name]),
 		"issueType": "IncorrectValue",
 		"keyExpectedValue": sprintf("Resources.%s.Properties.PolicyDocument.Statement does not allow a 'Delete' action from all principals", [name]),
